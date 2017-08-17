@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
 	"sync"
 	"time"
 
@@ -105,7 +104,7 @@ func (auth *Auth) VerifyIDToken(idToken string) (*Claims, error) {
 func (auth *Auth) fetchKeys() error {
 	auth.keysMutex.Lock()
 	defer auth.keysMutex.Unlock()
-	resp, err := http.Get(keysEndpoint)
+	resp, err := auth.app.client.Get(keysEndpoint)
 	if err != nil {
 		return err
 	}
